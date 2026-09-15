@@ -9,7 +9,9 @@ export const TopUtilityBar = ({
   t, 
   searchQuery, 
   setSearchQuery,
-  onSearch 
+  onSearch,
+  onLogout,
+  userSession
 }) => {
   return (
     <div className="top-utility-bar">
@@ -28,6 +30,21 @@ export const TopUtilityBar = ({
       </div>
 
       <div className="utility-actions">
+        {userSession?.isGuest && (
+          <span 
+            style={{ 
+              background: '#0022ff', 
+              color: '#ffffff', 
+              padding: '2px 8px', 
+              borderRadius: '9999px', 
+              fontSize: '11px', 
+              fontWeight: '700' 
+            }}
+          >
+            {t.guestMode || 'Guest Mode'}
+          </span>
+        )}
+
         {/* Dark / Light Mode Toggle */}
         <button 
           className="action-btn" 
@@ -47,10 +64,11 @@ export const TopUtilityBar = ({
           <span>{lang === 'en' ? 'አማ' : 'EN'}</span>
         </button>
 
-        {/* Logout */}
+        {/* Logout / Switch Account */}
         <button 
           className="action-btn logout-btn" 
-          onClick={() => alert("Logged out from Beha Marketing portal.")}
+          onClick={onLogout}
+          title="Logout / Switch Account"
         >
           <LogOut size={13} />
           <span>{t.logout}</span>

@@ -16,11 +16,20 @@ import { NotificationsView } from './components/views/NotificationsView';
 import { PerformanceView } from './components/views/PerformanceView';
 import { StaffFormView } from './components/views/StaffFormView';
 import { CalendarView } from './components/views/CalendarView';
+import { AuthView } from './components/views/AuthView';
 
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('beha_theme') || 'light');
   const [lang, setLang] = useState('en');
   const [currentView, setCurrentView] = useState('dashboard');
+  const [userSession, setUserSession] = useState(() => {
+    try {
+      const saved = localStorage.getItem('beha_user_session');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -37,6 +46,33 @@ function App() {
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleLogin = (userData) => {
+    const session = { ...userData, isGuest: false };
+    setUserSession(session);
+    localStorage.setItem('beha_user_session', JSON.stringify(session));
+    setCurrentView('dashboard');
+  };
+
+  const handleSignUp = (userData) => {
+    const session = { ...userData, isGuest: false };
+    setUserSession(session);
+    localStorage.setItem('beha_user_session', JSON.stringify(session));
+    setCurrentView('dashboard');
+  };
+
+  const handleGuestMode = () => {
+    const session = { userId: 'GUEST-001', name: 'Guest User', role: 'Guest', isGuest: true };
+    setUserSession(session);
+    localStorage.setItem('beha_user_session', JSON.stringify(session));
+    setCurrentView('dashboard');
+  };
+
+  const handleLogout = () => {
+    setUserSession(null);
+    localStorage.removeItem('beha_user_session');
+    setCurrentView('dashboard');
   };
 
   const handleSearch = () => {
@@ -79,6 +115,22 @@ function App() {
     }
   };
 
+  // If not logged in, render the Auth (Login & Sign Up) page matching the reference design
+  if (!userSession || currentView === 'auth') {
+    return (
+      <AuthView 
+        theme={theme} 
+        toggleTheme={toggleTheme} 
+        lang={lang} 
+        setLang={setLang} 
+        t={t} 
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+        onGuestMode={handleGuestMode}
+      />
+    );
+  }
+
   return (
     <div className="app-container">
       {/* 1. Top Utility Bar */}
@@ -91,6 +143,8 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
+        onLogout={handleLogout}
+        userSession={userSession}
       />
 
       {/* 2. Brand & Hierarchy Header */}
@@ -113,6 +167,7 @@ function App() {
         onClose={() => setIsSidebarOpen(false)}
         currentView={currentView}
         onNavigate={(view) => setCurrentView(view)}
+        onLogout={handleLogout}
       />
 
       {/* Profile Menu Dropdown */}
@@ -121,6 +176,8 @@ function App() {
         onClose={() => setIsProfileOpen(false)}
         onNavigate={(view) => setCurrentView(view)}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onLogout={handleLogout}
+        userSession={userSession}
       />
 
       {/* 4. Active Main Content View */}
