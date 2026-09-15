@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" fill="none">
+  <defs>
+    <linearGradient id="behaRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="25%" stop-color="#2563EB"/>
+      <stop offset="50%" stop-color="#06B6D4"/>
+      <stop offset="75%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Ribbon Loop Logo -->
+  <g filter="url(#glow)">
+    <path d="M 35 90 C 15 90 10 65 20 40 C 30 15 55 15 65 40 L 75 75 C 85 95 105 95 115 75 C 125 50 125 25 110 15" 
+          stroke="url(#behaRibbon)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M 65 40 C 75 15 100 15 110 40 L 115 65" 
+          stroke="url(#behaRibbon)" stroke-width="16" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- Beha Wordmark -->
+  <text x="145" y="82" font-family="'Outfit', 'Georgia', serif" font-size="78" font-weight="700" fill="#2D5A27" letter-spacing="-1">Beha</text>
+  
+  <!-- Sub-tag: ጀምረናል! Started! -->
+  <text x="148" y="106" font-family="'Noto Sans Ethiopic', 'Inter', sans-serif" font-size="16" font-weight="600" fill="#0284C7" letter-spacing="1">
+    ጀምረናል! <tspan fill="#0D9488">Started!</tspan>
+  </text>
+</svg>

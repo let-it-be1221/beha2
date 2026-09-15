@@ -1,0 +1,281 @@
+// Beha Marketing Real Estate CRM - Initial Data & Translations
+
+export const TRANSLATIONS = {
+  en: {
+    searchPlaceholder: "Search properties, customers, notices...",
+    searchBtn: "Search",
+    logout: "Logout",
+    slogan: "Tap into Growth. Unlock Potential.",
+    startedBadge: "Started!",
+    officeLocation: "Office: Ayat Square, Addis Ababa, Ethiopia",
+    generation: "01 Generation",
+    branch: "01 Branch",
+    team: "01 Team",
+    houses: "Houses",
+    customers: "Customers",
+    notifications: "Notifications",
+    performanceStatus: "Performance Status",
+    staffForm: "Staff Members Form",
+    calendar: "Calendar",
+    dashboard: "Dashboard",
+    todaysSchedule: "Today's Schedule",
+    siteVisit: "Site Visit",
+    directCall: "Direct Call",
+    leadFollowup: "Client Follow-up",
+    contractSigning: "Contract Signing at Ayat Office",
+    marketingTechniques: "Core Marketing Techniques for Sales Teams:",
+    technique1Title: "1. Relationship Marketing:",
+    technique1Desc: "Focuses on building long-term trust and loyalty with clients rather than just making a quick one-time sale. Satisfied customers become repeat buyers and brand advocates.",
+    technique2Title: "2. Social Proof & Word-of-Mouth:",
+    technique2Desc: "People trust recommendations from peers. Sharing success stories, testimonials, and positive reviews helps build instant credibility with potential buyers...",
+    todaysStudying: "Todays Studying",
+    studyTopic1: "Real Estate Title Deed (ካርታ) Verification in Addis Ababa",
+    studyTopic2: "Diaspora Bank Accounts & Remittance Regulations (NBE Directive)",
+    studyTopic3: "Mortgage Financing via Commercial Bank of Ethiopia (CBE)",
+    seeMore: "see more",
+    propertyId: "Property ID",
+    customerStatus: "Customer Status",
+    localPurchaser: "Local Purchaser",
+    diasporaBuyer: "Diaspora Buyer",
+    cbeAccount: "CBE Account No.",
+    tinNumber: "TIN No.",
+    uploadCv: "Upload Your CV Here",
+    uploadPhoto: "Upload Your Photo Here",
+    sponsorText: "ለዓለም አቀፍ ግብይት ... ካርድዎን ዛሬውኑ በእጅዎ ያስገቡ!",
+    sponsorBank: "Bank of Abyssinia",
+  },
+  am: {
+    searchPlaceholder: "ቤቶችን፣ ደንበኞችን፣ ማስታወቂያዎችን ይፈልጉ...",
+    searchBtn: "ፈልግ",
+    logout: "ውጣ",
+    slogan: "ዕድገትዎን ያፋጥኑ! አቅምዎን ያውጡ።",
+    startedBadge: "ጀምረናል!",
+    officeLocation: "ቢሮ፡ አያት አደባባይ፣ አዲስ አበባ፣ ኢትዮጵያ",
+    generation: "01 ትውልድ",
+    branch: "01 ቅርንጫፍ",
+    team: "01 ቡድን",
+    houses: "ቤቶች",
+    customers: "ደንበኞች",
+    notifications: "ማስታወቂያዎች",
+    performanceStatus: "የስራ አፈጻጸም",
+    staffForm: "የሰራተኞች ቅጽ",
+    calendar: "የቀን መቁጠሪያ",
+    dashboard: "ዳሽቦርድ",
+    todaysSchedule: "የዛሬ የሥራ መርሃ ግብር",
+    siteVisit: "የሳይት ጉብኝት",
+    directCall: "ቀጥተኛ የስልክ ጥሪ",
+    leadFollowup: "የደንበኛ ክትትል",
+    contractSigning: "የውል ስምምነት አያት ቢሮ",
+    marketingTechniques: "ለሽያጭ ቡድኖች ዋና የግብይት ስልቶች፡",
+    technique1Title: "1. የረጅም ጊዜ ግንኙነት መገንባት (Relationship Marketing)፡",
+    technique1Desc: "ፈጣን የአንድ ጊዜ ሽያጭ ከማድረግ ይልቅ ከደንበኞች ጋር ዘላቂ እምነትና ታማኝነት መፍጠር ላይ ያተኩራል። እርካታ ያገኙ ደንበኞች በድጋሚ ገዢና አስጎብኚ ይሆናሉ።",
+    technique2Title: "2. ማህበራዊ ምስክርነትና አፍ-ለአፍ ግብይት፡",
+    technique2Desc: "ሰዎች ከጓደኞቻቸውና ከቅርብ ዘመዶቻቸው የሚሰጡትን አስተያየት ያምናሉ። የስኬት ታሪኮችን፣ ምስክርነቶችንና አዎንታዊ አስተያየቶችን ማካፈል ፈጣን ተዓማኒነትን ይፈጥራል...",
+    todaysStudying: "የዛሬ ጥናት",
+    studyTopic1: "በአዲስ አበባ የካርታና ይዞታ ማረጋገጫ ሂደቶች",
+    studyTopic2: "የዲያስፖራ የባንክ ሂሳብ እና የውጭ ምንዛሪ ደንቦች (NBE)",
+    studyTopic3: "የኢትዮጵያ ንግድ ባንክ (CBE) የቤት ብድር አሰጣጥ",
+    seeMore: "ተጨማሪ ይመልከቱ",
+    propertyId: "የንብረት መለያ",
+    customerStatus: "የደንበኛ ሁኔታ",
+    localPurchaser: "የአገር ውስጥ ገዢ",
+    diasporaBuyer: "የዲያስፖራ ገዢ",
+    cbeAccount: "የኢ.ንግድ ባንክ ሂሳብ ቁጥር",
+    tinNumber: "የግብር መለያ ቁጥር (TIN)",
+    uploadCv: "ሲቪዎን እዚህ ይጫኑ",
+    uploadPhoto: "ፎቶዎን እዚህ ይጫኑ",
+    sponsorText: "ለዓለም አቀፍ ግብይት ... ካርድዎን ዛሬውኑ በእጅዎ ያስገቡ!",
+    sponsorBank: "የአቢሲንያ ባንክ",
+  }
+};
+
+export const INITIAL_PROPERTIES = [
+  {
+    id: "PROP-001",
+    type: "Apartment",
+    title: "1. Apartment",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
+    description: "An apartment is a self-contained residential unit that occupies only part of a larger building. It is designed to offer a modern, vertical, and community-oriented living experience, typically managed collectively.",
+    vsVilla: "Unlike a standalone villa which features private land, a fenced yard, and no shared walls, an apartment shares building structures, corridors, and exterior spaces with other residents.",
+    vsCondo: "While structurally similar (both are units within a multi-story building), a condominium specifically emphasizes individual ownership of the specific unit coupled with shared co-ownership of common areas. In contrast, an \"apartment\" is often used broadly to refer to rental or professionally managed multi-family residential complexes.",
+    advantages: ["Location & Accessibility", "Shared Amenities", "Enhanced Security", "Low Maintenance"],
+    site: "Bole Atlas",
+    developer: "Noah Real Estate",
+    bedrooms: "3 Bed",
+    area: "145 sqm",
+    status: "Ready to Move",
+    price: "18,500,000 ETB"
+  },
+  {
+    id: "PROP-002",
+    type: "Villa",
+    title: "2. Villa",
+    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+    description: "A villa is a premium, standalone residential property that stands on its own private plot of land. It is designed to offer maximum privacy, spacious living spaces, luxury, and independence, typically featuring a private yard or garden.",
+    vsApartment: "Unlike an apartment, which is a unit within a multi-story building sharing walls and common amenities, a villa is a completely detached structure with no shared interior walls and full ownership of the surrounding land.",
+    vsCondo: "While a condominium involves shared ownership and community management of common areas, a villa provides total autonomy, where the owner has full control and responsibility over the entire property and compound.",
+    advantages: ["Complete Privacy & Space", "High Investment Value", "Customization & Expansion", "Exclusive Amenities"],
+    site: "CMC Sunrise",
+    developer: "Gift Real Estate",
+    bedrooms: "4 Bed + Maid",
+    area: "350 sqm",
+    status: "Under Construction",
+    price: "42,000,000 ETB"
+  },
+  {
+    id: "PROP-003",
+    type: "Condominium",
+    title: "3. Condominium",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
+    description: "A condominium is a distinct type of real estate ownership where an individual owns a specific housing unit within a larger multi-unit building or complex, while jointly owning the shared common areas (such as hallways, elevators, recreational facilities, and the surrounding land) with other residents.",
+    vsApartmentOwnership: "While structurally and physically similar (both are units inside a multi-story building), the main difference lies in ownership. An apartment is typically owned by a single entity and rented out to tenants, whereas a condominium involves individual private ownership of each unit combined with shared co-ownership of common spaces.",
+    vsVillaStandalone: "Unlike a villa, which offers a standalone structure with a private yard and total individual control over the entire plot, a condo requires adherence to community association rules and shared management of communal grounds.",
+    advantages: ["Affordable Entry Point", "Deeded Co-ownership", "Community Amenities", "Appreciation Potential"],
+    site: "Ayat Zone 2",
+    developer: "Addis Ababa Housing Dev",
+    bedrooms: "2 Bed",
+    area: "98 sqm",
+    status: "Ready to Move",
+    price: "7,800,000 ETB"
+  },
+  {
+    id: "PROP-004",
+    type: "Rental Houses",
+    title: "4. Rental Houses",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
+    description: "A rental house refers to any property (ranging from standalone houses and villas to apartments or rooms) that is leased out by a landlord to tenants for a specified periodic fee, usually monthly or annually, without transferring ownership.",
+    vsOwnedPurchasing: "Unlike buying a home where the occupant holds the title deed and bears long-term financial commitments, renting provides flexibility, lower upfront costs, and zero responsibility for structural depreciation or major property taxes.",
+    advantages: ["Flexibility & Mobility", "Reduced Maintenance Responsibility", "Lower Financial Commitment", "Wide Range of Options"],
+    site: "Kazanchis / ECA",
+    developer: "Private Landlord",
+    bedrooms: "3 Bed Furnished",
+    area: "160 sqm",
+    status: "Available Immediately",
+    price: "120,000 ETB / month"
+  }
+];
+
+export const INITIAL_CUSTOMERS = [
+  {
+    id: "CUST-1001",
+    firstName: "Dawit",
+    lastName: "Tadesse",
+    phone: "+251911223344",
+    email: "dawit.t@gmail.com",
+    telegram: "@dawittad",
+    whatsapp: "+251911223344",
+    budgetMin: "15,000,000",
+    budgetMax: "25,000,000",
+    budgetAvg: "20,000,000",
+    choice1: "Apartment",
+    choice2: "Condominium",
+    choice3: "Villa",
+    purpose: "Personal Use",
+    deliveryUrgency: "Ready to Move",
+    highFloor: true,
+    balconyView: true,
+    parking: true,
+    playground: false,
+    petApproval: false,
+    specialAccommodations: false,
+    paymentMethod: "Cash",
+    customerStatus: "Local Purchaser",
+    assignedAgent: "Abebe Kebede",
+    createdDate: "2026-07-28"
+  },
+  {
+    id: "CUST-1002",
+    firstName: "Selamawit",
+    lastName: "Haile",
+    phone: "+1 202 555 0184",
+    email: "selam.haile@dcmail.com",
+    telegram: "@selam_h",
+    whatsapp: "+1 202 555 0184",
+    budgetMin: "35,000,000",
+    budgetMax: "60,000,000",
+    budgetAvg: "48,000,000",
+    choice1: "Villa",
+    choice2: "Apartment",
+    choice3: "Rental Houses",
+    purpose: "Investment",
+    deliveryUrgency: "Off-plan",
+    highFloor: false,
+    balconyView: true,
+    parking: true,
+    playground: true,
+    petApproval: true,
+    specialAccommodations: false,
+    paymentMethod: "Foreign Currency",
+    customerStatus: "Diaspora Buyer",
+    assignedAgent: "Mr. X",
+    createdDate: "2026-07-29"
+  }
+];
+
+export const KPI_WEEKLY_DATA = [
+  {
+    category: "Potential Customers",
+    weight: 12,
+    weeks: [12.00, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43, 11.43]
+  },
+  {
+    category: "Site Visit",
+    weight: 15,
+    weeks: [8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57, 8.57]
+  },
+  {
+    category: "Closed Sales",
+    weight: 30,
+    weeks: [30.00, 0.00, 0.00, 0.00, 30.00, 0.00, 0.00, 0.00, 30.00, 0.00, 0.00, 0.00]
+  },
+  {
+    category: "Recruitment & Performance",
+    weight: 12,
+    weeks: [8.26, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00, 12.00]
+  },
+  {
+    category: "Group Meeting",
+    weight: 9,
+    weeks: [8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75, 8.75]
+  },
+  {
+    category: "Consistency - 3 Weeks Trend",
+    weight: 15,
+    weeks: [null, null, null, 13.61, 13.66, 13.66, 13.66, 13.61, 13.66, 13.66, 13.66, 13.61]
+  },
+  {
+    category: "Executive Discretionary",
+    weight: 7,
+    weeks: [7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00, 7.00]
+  }
+];
+
+export const INITIAL_NOTICES = [
+  {
+    id: "NOTIF-01",
+    title: "General Sales Strategy Meeting (MoM)",
+    type: "MoM",
+    date: "July 30, 2026",
+    content: "All Team Leaders and Branch Heads are requested to submit weekly site-visit logs. Focus on Diaspora summer campaigns for CMC and Ayat properties.",
+    pinned: true,
+    author: "Head: Mr. X (Branch 01)"
+  },
+  {
+    id: "NOTIF-02",
+    title: "Administrative: New National ID (FAN) Verification",
+    type: "Administrative",
+    date: "July 28, 2026",
+    content: "Starting next month, all customer contracts must record the 16-digit Fayda National ID (FAN) alongside the Tax Identification Number (TIN).",
+    pinned: true,
+    author: "Compliance & Legal Dept"
+  },
+  {
+    id: "NOTIF-03",
+    title: "Schedule: Weekend Site Tour to Ayat & Bole Arabsa",
+    type: "Schedules",
+    date: "July 27, 2026",
+    content: "Transportation departs at 9:00 AM sharp from Ayat Square office. 14 confirmed potential buyers for 3-bedroom luxury apartments.",
+    pinned: false,
+    author: "Operations Lead"
+  }
+];
