@@ -7,10 +7,11 @@ import {
   BarChart2, 
   UserPlus, 
   Calendar, 
-  X 
+  X,
+  LogOut 
 } from 'lucide-react';
 
-export const SidebarDrawer = ({ isOpen, onClose, currentView, onNavigate }) => {
+export const SidebarDrawer = ({ isOpen, onClose, currentView, onNavigate, onLogout }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home },
     { id: 'houses', label: 'Houses', icon: Building2 },
@@ -62,6 +63,19 @@ export const SidebarDrawer = ({ isOpen, onClose, currentView, onNavigate }) => {
               </li>
             );
           })}
+          {onLogout && (
+            <li
+              className="sidebar-nav-item"
+              style={{ color: '#ef4444', marginTop: '12px' }}
+              onClick={() => {
+                onClose();
+                onLogout();
+              }}
+            >
+              <LogOut size={18} color="#ef4444" />
+              <span>Sign Out / Switch Account</span>
+            </li>
+          )}
         </ul>
 
         <div style={{ marginTop: 'auto', padding: '16px', borderTop: '1px solid #334155', fontSize: '11px', color: '#94a3b8' }}>
