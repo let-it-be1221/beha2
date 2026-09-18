@@ -1,0 +1,464 @@
+// Beha Marketing PLC - Operational Guideline Prisma Schema
+// Covers 5-Tier Sales Hierarchy, Administrative Departments, Article 22 Commission & Role Dashboards
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum StaffGrade {
+  GRADE_1 // Team Member / Direct Sales
+  GRADE_2 // Experienced Sales Agent
+  GRADE_3 // Team Leader
+  GRADE_4 // Branch Manager
+  GRADE_5 // Generation Head / Executive
+}
+
+enum DepartmentType {
+  ADMINISTRATIVE
+  SALES
+}
+
+enum DealStatus {
+  INQUIRY
+  SITE_VISIT
+  OFFER_MADE
+  RESERVATION_PAID
+  CONTRACT_SIGNED
+  COMMISSION_APPROVED
+  COMMISSION_PAID
+  CANCELLED
+}
+
+enum PaymentCertificateStatus {
+  DRAFT
+  PENDING_CEO_APPROVAL
+  CEO_APPROVED
+  FINANCE_DISBURSED
+  REJECTED
+}
+
+enum DisputeCategory {
+  OPERATIONAL
+  CONFLICT_OF_INTEREST
+  COMMISSION_SPLIT
+  CUSTOMER_JURISDICTION
+}
+
+enum DisputeStatus {
+  OPEN
+  UNDER_REVIEW
+  RESOLVED
+}
+
+enum MeetingType {
+  CALL
+  VIRTUAL
+  IN_PERSON
+}
+
+enum UpgradeStatus {
+  STUDY
+  SUBMITTED_TO_CEO
+  APPROVED_BY_CEO
+  DEPLOYED
+}
+
+enum AccessRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id                    BigInt        @id @default(autoincrement())
+  employee_id           String        @unique @db.VarChar(50)
+  name                  String        @db.VarChar(255)
+  email                 String        @unique @db.VarChar(255)
+  phone                 String?       @db.VarChar(50)
+  password              String        @db.VarChar(255)
+  primary_role          String        @db.VarChar(50) // CEO, INFORMATION_OFFICER, FINANCE_OFFICER, SYSTEM_ADMIN, GENERATION_HEAD, BRANCH_MANAGER, TEAM_LEADER, TEAM_MEMBER
+  department            DepartmentType @default(SALES)
+  grade                 StaffGrade    @default(GRADE_1)
+  branch_id             BigInt?
+  team_id               BigInt?
+  is_active             Boolean       @default(true)
+  base_salary           Decimal       @default(0.00) @db.Decimal(12, 2) // Article 22: Regular salary only for Admin, 0 for Sales
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  // Relations
+  branch                Branch?       @relation("BranchMembers", fields: [branch_id], references: [id])
+  team                  Team?         @relation("TeamMembers", fields: [team_id], references: [id])
+
+  // Head roles
+  headedGenerations     Generation[]  @relation("GenerationHead")
+  managedBranches       Branch[]      @relation("BranchManager")
+  ledTeams              Team[]        @relation("TeamLeader")
+
+  // Sales & operational relations
+  registeredCustomers   Customer[]    @relation("CustomerAgent")
+  closedDeals           SalesDeal[]   @relation("SellingAgent")
+  dailyDiaries          DailyDiary[]  @relation("DiaryAuthor")
+  verifiedDiaries       DailyDiary[]  @relation("DiarySupervisor")
+  tendencyReports       TendencyReport[]
+  summaryReports        GenerationSummaryReport[]
+  commissionPayouts     CommissionDisbursement[]
+
+  // Approvals & audits
+  approvedCertificates  PaymentCertificate[] @relation("CeoApproval")
+  auditLogs             AuditLog[]
+  accessRequests        AccessRequest[]      @relation("UserAccessRequests")
+  reviewedAccessReqs    AccessRequest[]      @relation("AdminReviewedRequests")
+  organizedMeetings     DiscussionMeeting[]  @relation("MeetingOrganizer")
+  raisedDisputes        Dispute[]            @relation("DisputeRaiser")
+  resolvedDisputes      Dispute[]            @relation("DisputeResolver")
+  submittedUpgrades     SystemUpgrade[]      @relation("UpgradeSubmitter")
+  approvedUpgrades      SystemUpgrade[]      @relation("UpgradeCeoApprover")
+  notifications         AppNotification[]
+
+  @@index([primary_role])
+  @@index([department])
+  @@map("users")
+}
+
+model Generation {
+  id                    BigInt        @id @default(autoincrement())
+  code                  String        @unique @db.VarChar(50)
+  name                  String        @db.VarChar(150)
+  head_user_id          BigInt?
+  description           String?       @db.Text
+  is_active             Boolean       @default(true)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  head                  User?         @relation("GenerationHead", fields: [head_user_id], references: [id])
+  branches              Branch[]
+  summaryReports        GenerationSummaryReport[]
+
+  @@map("generations")
+}
+
+model Branch {
+  id                    BigInt        @id @default(autoincrement())
+  generation_id         BigInt
+  code                  String        @unique @db.VarChar(50)
+  name                  String        @db.VarChar(150)
+  manager_user_id       BigInt?
+  phone                 String?       @db.VarChar(50)
+  address               String?       @db.VarChar(255)
+  is_active             Boolean       @default(true)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  generation            Generation    @relation(fields: [generation_id], references: [id], onDelete: Cascade)
+  manager               User?         @relation("BranchManager", fields: [manager_user_id], references: [id])
+  teams                 Team[]
+  members               User[]        @relation("BranchMembers")
+  customers             Customer[]
+  disputes              Dispute[]
+
+  @@map("branches")
+}
+
+model Team {
+  id                    BigInt        @id @default(autoincrement())
+  branch_id             BigInt
+  code                  String        @unique @db.VarChar(50)
+  name                  String        @db.VarChar(150)
+  leader_user_id        BigInt?
+  target_sales          Int           @default(10)
+  is_active             Boolean       @default(true)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  branch                Branch        @relation(fields: [branch_id], references: [id], onDelete: Cascade)
+  leader                User?         @relation("TeamLeader", fields: [leader_user_id], references: [id])
+  members               User[]        @relation("TeamMembers")
+
+  @@map("teams")
+}
+
+model Customer {
+  id                    BigInt        @id @default(autoincrement())
+  customer_code         String        @unique @db.VarChar(50)
+  full_name             String        @db.VarChar(150)
+  phone                 String        @db.VarChar(50)
+  email                 String?       @db.VarChar(100)
+  assigned_agent_id     BigInt
+  branch_id             BigInt?
+  requirement_summary   String?       @db.Text
+  budget_etb            Decimal?      @db.Decimal(14, 2)
+  status                String        @default("ACTIVE") // ACTIVE, CONTRACTED, CLOSED, DORMANT
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  agent                 User          @relation("CustomerAgent", fields: [assigned_agent_id], references: [id])
+  branch                Branch?       @relation(fields: [branch_id], references: [id])
+  deals                 SalesDeal[]
+
+  @@map("customers")
+}
+
+model DailyDiary {
+  id                    BigInt        @id @default(autoincrement())
+  user_id               BigInt
+  report_date           DateTime      @db.Date
+  activity_summary      String        @db.Text
+  challenges            String?       @db.Text
+  action_plan_tomorrow  String?       @db.Text
+  supervisor_id         BigInt?
+  supervisor_feedback   String?       @db.Text
+  is_verified           Boolean       @default(false)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  author                User          @relation("DiaryAuthor", fields: [user_id], references: [id], onDelete: Cascade)
+  supervisor            User?         @relation("DiarySupervisor", fields: [supervisor_id], references: [id])
+
+  @@map("daily_diaries")
+}
+
+model TendencyReport {
+  id                    BigInt        @id @default(autoincrement())
+  user_id               BigInt
+  branch_id             BigInt?
+  week_ending_date      DateTime      @db.Date
+  prospective_buyers    Int           @default(0)
+  site_visits_conducted Int           @default(0)
+  hot_leads_count       Int           @default(0)
+  market_observation    String?       @db.Text
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  user                  User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("tendency_reports")
+}
+
+model GenerationSummaryReport {
+  id                    BigInt        @id @default(autoincrement())
+  generation_id         BigInt
+  compiled_by_id        BigInt
+  period_label          String        @db.VarChar(50) // e.g. "Meskerem 2017" or "2026-Q3"
+  total_deals_closed    Int           @default(0)
+  total_sales_volume    Decimal       @default(0.00) @db.Decimal(15, 2)
+  challenges_and_needs  String?       @db.Text
+  strategic_recommendations String?   @db.Text
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  generation            Generation    @relation(fields: [generation_id], references: [id], onDelete: Cascade)
+  compiler              User          @relation(fields: [compiled_by_id], references: [id])
+
+  @@map("generation_summary_reports")
+}
+
+model DeveloperContract {
+  id                    BigInt        @id @default(autoincrement())
+  developer_name        String        @db.VarChar(150)
+  contract_number       String        @unique @db.VarChar(100)
+  commission_agreement_pct Decimal    @default(3.50) @db.Decimal(5, 2)
+  signed_at             DateTime?     @db.Date
+  expires_at            DateTime?     @db.Date
+  status                String        @default("ACTIVE")
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  properties            Property[]
+
+  @@map("developer_contracts")
+}
+
+model Property {
+  id                    BigInt        @id @default(autoincrement())
+  developer_contract_id BigInt?
+  title                 String        @db.VarChar(200)
+  location              String        @db.VarChar(200)
+  property_type         String        @db.VarChar(50)
+  price_etb             Decimal       @db.Decimal(14, 2)
+  commission_rate_pct   Decimal       @default(3.50) @db.Decimal(5, 2)
+  status                String        @default("AVAILABLE") // AVAILABLE, RESERVED, SOLD
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  contract              DeveloperContract? @relation(fields: [developer_contract_id], references: [id])
+  deals                 SalesDeal[]
+
+  @@map("properties")
+}
+
+model SalesDeal {
+  id                    BigInt        @id @default(autoincrement())
+  deal_reference        String        @unique @db.VarChar(50)
+  property_id           BigInt
+  customer_id           BigInt
+  selling_user_id       BigInt
+  final_sale_price      Decimal       @db.Decimal(15, 2)
+  company_gross_commission Decimal   @db.Decimal(14, 2)
+  deal_date             DateTime      @db.Date
+  deal_status           DealStatus    @default(CONTRACT_SIGNED)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  property              Property      @relation(fields: [property_id], references: [id])
+  customer              Customer      @relation(fields: [customer_id], references: [id])
+  seller                User          @relation("SellingAgent", fields: [selling_user_id], references: [id])
+  paymentCertificate    PaymentCertificate?
+
+  @@map("sales_deals")
+}
+
+model PaymentCertificate {
+  id                    BigInt        @id @default(autoincrement())
+  sales_deal_id         BigInt        @unique
+  certificate_number    String        @unique @db.VarChar(50)
+  total_deal_amount     Decimal       @db.Decimal(15, 2)
+  total_sales_commission Decimal      @db.Decimal(14, 2)
+  status                PaymentCertificateStatus @default(PENDING_CEO_APPROVAL)
+  ceo_approved_by_id    BigInt?
+  ceo_approved_at       DateTime?
+  finance_disbursed_at  DateTime?
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  salesDeal             SalesDeal     @relation(fields: [sales_deal_id], references: [id], onDelete: Cascade)
+  ceoApprover           User?         @relation("CeoApproval", fields: [ceo_approved_by_id], references: [id])
+  disbursements         CommissionDisbursement[]
+
+  @@map("payment_certificates")
+}
+
+model CommissionDisbursement {
+  id                    BigInt        @id @default(autoincrement())
+  payment_certificate_id BigInt
+  beneficiary_user_id   BigInt
+  beneficiary_role_tier String        @db.VarChar(50) // DIRECT_SALES, TEAM_LEADER, BRANCH_MANAGER, GENERATION_HEAD
+  commission_percentage Decimal       @db.Decimal(5, 3) // e.g. 1.500%, 0.250%, 0.150%, 0.100%, or 1.900% for stacked
+  gross_commission_amount Decimal     @db.Decimal(14, 2)
+  withholding_tax_amount Decimal      @default(0.00) @db.Decimal(14, 2) // 2% Withholding Tax
+  net_commission_payable Decimal      @db.Decimal(14, 2)
+  is_paid               Boolean       @default(false)
+  paid_at               DateTime?
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  certificate           PaymentCertificate @relation(fields: [payment_certificate_id], references: [id], onDelete: Cascade)
+  beneficiary           User          @relation(fields: [beneficiary_user_id], references: [id])
+
+  @@map("commission_disbursements")
+}
+
+model AuditLog {
+  id                    BigInt        @id @default(autoincrement())
+  user_id               BigInt?
+  action                String        @db.VarChar(100)
+  entity_type           String?       @db.VarChar(100)
+  entity_id             BigInt?
+  ip_address            String?       @db.VarChar(45)
+  details               String?       @db.Text
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  user                  User?         @relation(fields: [user_id], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+model AccessRequest {
+  id                    BigInt        @id @default(autoincrement())
+  user_id               BigInt
+  requested_role        String        @db.VarChar(50)
+  justification         String        @db.Text
+  status                AccessRequestStatus @default(PENDING)
+  reviewed_by_id        BigInt?
+  review_notes          String?       @db.Text
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  user                  User          @relation("UserAccessRequests", fields: [user_id], references: [id], onDelete: Cascade)
+  reviewer              User?         @relation("AdminReviewedRequests", fields: [reviewed_by_id], references: [id], onDelete: SetNull)
+
+  @@map("access_requests")
+}
+
+model DiscussionMeeting {
+  id                    BigInt        @id @default(autoincrement())
+  title                 String        @db.VarChar(200)
+  meeting_type          MeetingType   @default(VIRTUAL)
+  tier_scope            String        @default("BRANCH") @db.VarChar(50)
+  organizer_id          BigInt
+  scheduled_at          DateTime
+  location_or_link      String?       @db.VarChar(255)
+  agenda                String?       @db.Text
+  decision_log          String?       @db.Text
+  status                String        @default("scheduled") @db.VarChar(50)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  organizer             User          @relation("MeetingOrganizer", fields: [organizer_id], references: [id], onDelete: Cascade)
+
+  @@map("discussion_meetings")
+}
+
+model Dispute {
+  id                    BigInt        @id @default(autoincrement())
+  dispute_code          String        @unique @db.VarChar(30)
+  raised_by_id          BigInt
+  branch_id             BigInt?
+  title                 String        @db.VarChar(200)
+  category              DisputeCategory @default(OPERATIONAL)
+  description           String        @db.Text
+  status                DisputeStatus @default(OPEN)
+  resolved_by_id        BigInt?
+  resolution_notes      String?       @db.Text
+  resolved_at           DateTime?
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  raisedBy              User          @relation("DisputeRaiser", fields: [raised_by_id], references: [id], onDelete: Cascade)
+  branch                Branch?       @relation(fields: [branch_id], references: [id], onDelete: SetNull)
+  resolvedBy            User?         @relation("DisputeResolver", fields: [resolved_by_id], references: [id], onDelete: SetNull)
+
+  @@map("disputes")
+}
+
+model SystemUpgrade {
+  id                    BigInt        @id @default(autoincrement())
+  title                 String        @db.VarChar(200)
+  version               String        @db.VarChar(30)
+  study_notes           String        @db.Text
+  impact_assessment     String?       @db.Text
+  status                UpgradeStatus @default(STUDY)
+  submitted_by_id       BigInt
+  ceo_approved_by_id    BigInt?
+  deployed_at           DateTime?
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  submittedBy           User          @relation("UpgradeSubmitter", fields: [submitted_by_id], references: [id], onDelete: Cascade)
+  ceoApprovedBy         User?         @relation("UpgradeCeoApprover", fields: [ceo_approved_by_id], references: [id], onDelete: SetNull)
+
+  @@map("system_upgrades")
+}
+
+model AppNotification {
+  id                    BigInt        @id @default(autoincrement())
+  user_id               BigInt?
+  target_role           String?       @db.VarChar(50)
+  title                 String        @db.VarChar(150)
+  message               String        @db.Text
+  type                  String        @default("info") @db.VarChar(50)
+  is_read               Boolean       @default(false)
+  action_link           String?       @db.VarChar(255)
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @updatedAt
+
+  user                  User?         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("app_notifications")
+}
