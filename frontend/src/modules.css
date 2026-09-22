@@ -264,6 +264,186 @@
   font-weight: bold;
 }
 
+/* Filtered Real Estate Listings View */
+.filter-results-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: #1e40af;
+}
+[data-theme='dark'] .filter-results-banner {
+  background: #172554;
+  border-color: #1e3a8a;
+  color: #93c5fd;
+}
+
+.clear-filter-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.clear-filter-btn:hover {
+  background: #b91c1c;
+}
+
+.realestate-listing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--table-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+.realestate-listing-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.re-card-header {
+  position: relative;
+  height: 170px;
+  width: 100%;
+}
+.re-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.re-tag-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.re-verified-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #16a34a;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.re-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+.re-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.re-price-main {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #16a34a;
+}
+.re-advance-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.re-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.re-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.re-specs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--bg-app);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  gap: 4px;
+  font-size: 11.5px;
+  margin-top: 4px;
+}
+.re-spec-item strong {
+  display: block;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+.re-spec-item span {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.re-loan-tag {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+[data-theme='dark'] .re-loan-tag {
+  background: #052e16;
+  border-color: #14532d;
+  color: #86efac;
+}
+
+.re-actions-row {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid var(--table-border);
+}
+.re-btn-view {
+  flex: 1;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.re-btn-view:hover {
+  background: #1d4ed8;
+}
+
 /* =========================================
    3. CUSTOMERS VIEW & INTAKE FORM
    ========================================= */

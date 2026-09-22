@@ -58,7 +58,7 @@ export const StaffFormView = ({ t }) => {
     languages: 'Amharic, English, Afaan Oromoo',
     experience: '3 years experience in luxury residential marketing in Addis Ababa',
     emergencyContact: 'Rahel Tadesse (+251 912 334455 - Sister)',
-    invitedBy: 'Head: Mr. X (Branch 01 Leader)',
+    invitedBy: 'Selamawit Bekele (Branch Manager)',
     cbeAccount: '1000456789123',
     tinNo: '0048291045',
     salesTrackRecord: 'Successfully closed 8 apartment units in Ayat and 2 CMC villas in 2025',

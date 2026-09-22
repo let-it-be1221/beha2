@@ -18,7 +18,7 @@ export const TeamMemberDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading Direct Sales Agent Workplace...</div>;
 
-  const { kpis, user, my_deals = [], my_disbursements = [], my_diaries = [], my_customers = [], property_catalog = [] } = data;
+  const { kpis = {}, user = {}, my_deals = [], my_disbursements = [], my_diaries = [], my_customers = [], property_catalog = [] } = data || {};
 
   const handlePostDiary = async (e) => {
     e.preventDefault();

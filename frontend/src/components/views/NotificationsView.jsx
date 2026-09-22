@@ -10,9 +10,9 @@ export const NotificationsView = ({ t }) => {
   
   // Direct Message State
   const [messages, setMessages] = useState([
-    { id: 1, sender: "Head: Mr. X (Branch 01)", time: "10:15 AM", text: "Please prepare the site tour documentation for CMC villas this Saturday." },
-    { id: 2, sender: "You (Abebe Kebede)", time: "10:20 AM", text: "Understood Mr. X. 4 buyers are confirmed, 2 of them are Diaspora clients." },
-    { id: 3, sender: "Head: Mr. X (Branch 01)", time: "10:22 AM", text: "Great! Ensure foreign currency escrow details from Commercial Bank of Ethiopia are included." }
+    { id: 1, sender: "Selamawit Bekele (Branch Manager)", time: "10:15 AM", text: "Please prepare the site tour documentation for CMC villas this Saturday." },
+    { id: 2, sender: "You (Abebe Kebede)", time: "10:20 AM", text: "Understood Selamawit. 4 buyers are confirmed, 2 of them are Diaspora clients." },
+    { id: 3, sender: "Selamawit Bekele (Branch Manager)", time: "10:22 AM", text: "Great! Ensure foreign currency escrow details from Commercial Bank of Ethiopia are included." }
   ]);
   const [newMsgText, setNewMsgText] = useState('');
 

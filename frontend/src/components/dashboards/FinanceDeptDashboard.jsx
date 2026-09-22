@@ -10,7 +10,7 @@ export const FinanceDeptDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading Finance & Commission Settlement Center...</div>;
 
-  const { kpis, certificates = [], disbursements = [], admin_payroll = [], tax_deduction_ledger = [] } = data;
+  const { kpis = {}, certificates = [], disbursements = [], admin_payroll = [], tax_deduction_ledger = [] } = data || {};
 
   const handleDisburse = async (certId) => {
     if (!confirm(`Confirm full commission payout disbursement for Payment Certificate #${certId}?`)) return;

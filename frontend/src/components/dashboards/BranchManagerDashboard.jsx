@@ -15,7 +15,7 @@ export const BranchManagerDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading Branch Manager Operations Command...</div>;
 
-  const { kpis, branch, teams = [], customers = [], diaries = [], tendency_reports = [], disputes = [] } = data;
+  const { kpis = {}, branch = {}, teams = [], customers = [], diaries = [], tendency_reports = [], disputes = [] } = data || {};
 
   const handleSubmitTendency = (e) => {
     e.preventDefault();

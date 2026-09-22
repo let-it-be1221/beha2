@@ -24,7 +24,7 @@ export const CeoDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading CEO Command Center...</div>;
 
-  const { kpis, pending_certificates = [], pending_upgrades = [], assemblies = [], contracts = [], heatmap = [], open_disputes = [], recent_audits = [] } = data;
+  const { kpis = {}, pending_certificates = [], pending_upgrades = [], assemblies = [], contracts = [], heatmap = [], open_disputes = [], recent_audits = [] } = data || {};
 
   const handleApproveCert = async (id) => {
     if (!confirm(`Authorize Payment Certificate #${id} for immediate commission disbursement?`)) return;

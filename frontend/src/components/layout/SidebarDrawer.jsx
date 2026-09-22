@@ -1,27 +1,51 @@
-import React from 'react';
 import { 
-  Home, 
   Building2, 
   Users, 
   Bell, 
-  BarChart2, 
-  UserPlus, 
-  Calendar, 
   X,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  Briefcase,
+  Layers,
+  Building,
+  Award,
+  Crown
 } from 'lucide-react';
 
-export const SidebarDrawer = ({ isOpen, onClose, currentView, onNavigate, onLogout }) => {
+export const getRoleDashboardInfo = (userSession) => {
+  const role = (userSession?.primary_role || userSession?.role || '').toUpperCase();
+  if (role.includes('CEO') || role.includes('EXECUTIVE')) {
+    return { id: 'dashboard', label: 'CEO Command Center', icon: Crown, color: '#dc2626' };
+  }
+  if (role.includes('INFO')) {
+    return { id: 'dashboard', label: 'Information Dept Center', icon: Layers, color: '#2563eb' };
+  }
+  if (role.includes('FIN')) {
+    return { id: 'dashboard', label: 'Finance & Settlement', icon: Briefcase, color: '#16a34a' };
+  }
+  if (role.includes('SYS') || role.includes('ADMIN')) {
+    return { id: 'dashboard', label: 'System Admin Console', icon: ShieldCheck, color: '#9333ea' };
+  }
+  if (role.includes('GEN')) {
+    return { id: 'dashboard', label: 'Generation Head Console', icon: Building, color: '#d97706' };
+  }
+  if (role.includes('BRANCH') || role.includes('BR_')) {
+    return { id: 'dashboard', label: 'Branch Operations Command', icon: Building2, color: '#ea580c' };
+  }
+  if (role.includes('LEADER') || role.includes('TL')) {
+    return { id: 'dashboard', label: 'Team Leader Console', icon: Users, color: '#0891b2' };
+  }
+  return { id: 'dashboard', label: 'Sales Agent Workplace', icon: Award, color: '#2563eb' };
+};
+
+export const SidebarDrawer = ({ isOpen, onClose, currentView, onNavigate, onLogout, userSession }) => {
+  const roleInfo = getRoleDashboardInfo(userSession);
+
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'operations', label: 'Operations & Approvals', icon: ShieldCheck },
+    { id: 'dashboard', label: roleInfo.label, icon: roleInfo.icon, badgeColor: roleInfo.color },
     { id: 'houses', label: 'Houses', icon: Building2 },
     { id: 'customers', label: 'Customers', icon: Users },
     { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'performance', label: 'Performance Status', icon: BarChart2 },
-    { id: 'staff', label: 'Organization & Staff', icon: UserPlus },
-    { id: 'calendar', label: 'Calendar & Schedule', icon: Calendar },
   ];
 
   return (

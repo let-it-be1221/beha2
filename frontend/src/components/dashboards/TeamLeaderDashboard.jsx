@@ -10,7 +10,7 @@ export const TeamLeaderDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading Team Leader Operations Console...</div>;
 
-  const { kpis, team, members = [], diary_review_queue = [], customers = [], morning_meetings = [] } = data;
+  const { kpis = {}, team = {}, members = [], diary_review_queue = [], customers = [], morning_meetings = [] } = data || {};
 
   const handleVerify = async (diaryId) => {
     const feedback = prompt("Enter Team Leader coaching feedback & sign-off note (Article 8.4):");

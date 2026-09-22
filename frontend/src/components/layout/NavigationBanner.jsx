@@ -8,82 +8,54 @@ import {
   UserCircle2,
   ShieldCheck
 } from 'lucide-react';
+import { getRoleDashboardInfo } from './SidebarDrawer';
 
 export const NavigationBanner = ({ 
   currentView, 
   onToggleSidebar, 
   onToggleProfile,
-  onCalendarTitleClick
+  onCalendarTitleClick,
+  userSession
 }) => {
+  const roleInfo = getRoleDashboardInfo(userSession);
+  const RoleIcon = roleInfo.icon;
+
   const renderTitleContent = () => {
     switch (currentView) {
-      case 'operations':
-        return (
-          <div className="page-title-center">
-            <ShieldCheck size={32} color="#2563eb" />
-            <span>Operations &amp; CEO Approvals</span>
-          </div>
-        );
       case 'houses':
         return (
           <div className="page-title-center">
-            <Building2 size={32} color="#854d0e" />
+            <Building2 size={30} color="#854d0e" />
             <span>Houses</span>
           </div>
         );
       case 'customers':
         return (
           <div className="page-title-center">
-            <Handshake size={34} color="#15803d" />
+            <Handshake size={32} color="#15803d" />
             <span>Customers</span>
           </div>
         );
       case 'notifications':
         return (
           <div className="page-title-center">
-            <Mail size={32} color="#000000" />
+            <Mail size={30} color="#000000" />
             <span>Notifications</span>
           </div>
         );
-      case 'performance':
+      case 'operations':
         return (
           <div className="page-title-center">
-            <BarChart3 size={32} color="#1d4ed8" />
-            <span>Performance Status</span>
-          </div>
-        );
-      case 'staff':
-        return (
-          <div className="page-title-center">
-            <Users size={32} color="#3b82f6" />
-            <span>Organization &amp; Staff</span>
-          </div>
-        );
-      case 'calendar':
-        return (
-          <div className="page-title-center">
-            <CalendarIcon size={32} color="#0284c7" />
-            <span>Calendar &amp; Schedule</span>
+            <ShieldCheck size={30} color="#2563eb" />
+            <span>Operations &amp; Approvals</span>
           </div>
         );
       case 'dashboard':
       default:
         return (
-          <div 
-            className="dual-calendar-display" 
-            onClick={onCalendarTitleClick} 
-            style={{ cursor: 'pointer' }}
-            title="Click to view full Ethiopian Calendar"
-          >
-            <CalendarIcon size={36} color="#0284c7" />
-            <div>
-              <div className="dual-date-ethiopian font-ethiopic">
-                ሐሙስ፣ 21 ነሐሴ 2018 ዓ.ም
-              </div>
-              <div className="dual-date-gregorian">
-                Thursday, 30 Jul 2026 G.C
-              </div>
-            </div>
+          <div className="page-title-center">
+            <RoleIcon size={30} color={roleInfo.color || "#2563eb"} />
+            <span>{roleInfo.label}</span>
           </div>
         );
     }

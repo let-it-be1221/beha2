@@ -4,13 +4,58 @@ import {
   Upload, HardDrive, Share2, Search, ExternalLink, RefreshCw 
 } from 'lucide-react';
 
+import { publishProperty } from '../../services/api';
+
 export const InformationDeptDashboard = ({ data, onRefresh }) => {
   const [filterType, setFilterType] = useState('ALL');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [propForm, setPropForm] = useState({
+    developer_contract_id: 1,
+    property_code: 'BH-PROP-' + Math.floor(1000 + Math.random() * 9000),
+    title: '',
+    property_type: 'apartment',
+    price: '',
+    area_sqm: '',
+    subcity: 'Bole',
+    specific_area: '',
+    description: '',
+  });
+  const [publishing, setPublishing] = useState(false);
 
   if (!data) return <div className="p-4">Loading Information Department Data Center...</div>;
 
-  const { kpis, properties = [], contracts = [], incoming_feed = [], access_requests = [], security_alerts = [], backup_schedule = {} } = data;
+  const { kpis = {}, properties = [], contracts = [], incoming_feed = [], access_requests = [], security_alerts = [], backup_schedule = {} } = data || {};
+
+  const handlePublishSubmit = async (e) => {
+    e.preventDefault();
+    setPublishing(true);
+    try {
+      await publishProperty({
+        ...propForm,
+        price: parseFloat(propForm.price),
+        area_sqm: parseFloat(propForm.area_sqm) || 100,
+      });
+      alert(`Property ${propForm.property_code} verified and published to catalog (Article 13.2)!`);
+      setShowPublishModal(false);
+      setPropForm({
+        developer_contract_id: 1,
+        property_code: 'BH-PROP-' + Math.floor(1000 + Math.random() * 9000),
+        title: '',
+        property_type: 'apartment',
+        price: '',
+        area_sqm: '',
+        subcity: 'Bole',
+        specific_area: '',
+        description: '',
+      });
+      onRefresh();
+    } catch (err) {
+      alert("Error publishing property: " + err.message);
+    } finally {
+      setPublishing(false);
+    }
+  };
 
   const filteredProperties = properties.filter((p) => {
     if (filterType !== 'ALL' && p.property_type !== filterType.toLowerCase()) return false;
@@ -28,7 +73,7 @@ export const InformationDeptDashboard = ({ data, onRefresh }) => {
           <span className="role-badge-pill role-badge-info">Confidentiality & Inventory Keeper</span>
         </div>
         <div className="quick-action-bar">
-          <button className="dash-btn-primary" onClick={() => alert("Property Intake form: properties ingested from Gen Heads are verified and published here (Articles 13.2, 16.6)")}>
+          <button className="dash-btn-primary" onClick={() => setShowPublishModal(true)}>
             <Upload size={14} /> Verify & Publish Listing
           </button>
           <button className="dash-btn-outline" onClick={onRefresh}>
@@ -190,6 +235,107 @@ export const InformationDeptDashboard = ({ data, onRefresh }) => {
           </div>
         </div>
       </div>
+
+      {/* Modal: Verify & Publish Property */}
+      {showPublishModal && (
+        <div className="dash-modal-overlay" onClick={() => setShowPublishModal(false)}>
+          <div className="dash-modal-box" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800' }}>Verify & Publish Property Listing</h3>
+            <form onSubmit={handlePublishSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div className="dash-form-group">
+                <label>Property Code & Title</label>
+                <div style={{ display: 'grid', gridTemplateColumns: '130px 1fr', gap: '8px' }}>
+                  <input 
+                    type="text" 
+                    className="dash-input" 
+                    required
+                    value={propForm.property_code}
+                    onChange={(e) => setPropForm({ ...propForm, property_code: e.target.value })}
+                  />
+                  <input 
+                    type="text" 
+                    className="dash-input" 
+                    required
+                    placeholder="e.g. Bole Atlas Modern 3-Bedroom Apartment"
+                    value={propForm.title}
+                    onChange={(e) => setPropForm({ ...propForm, title: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="dash-form-group">
+                  <label>Property Type</label>
+                  <select 
+                    className="dash-input"
+                    value={propForm.property_type}
+                    onChange={(e) => setPropForm({ ...propForm, property_type: e.target.value })}
+                  >
+                    <option value="apartment">Apartment</option>
+                    <option value="villa">Villa</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="land">Land</option>
+                    <option value="condominium">Condominium</option>
+                  </select>
+                </div>
+
+                <div className="dash-form-group">
+                  <label>Price (ETB)</label>
+                  <input 
+                    type="number" 
+                    className="dash-input" 
+                    required
+                    placeholder="15000000"
+                    value={propForm.price}
+                    onChange={(e) => setPropForm({ ...propForm, price: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="dash-form-group">
+                  <label>Subcity</label>
+                  <input 
+                    type="text" 
+                    className="dash-input" 
+                    value={propForm.subcity}
+                    onChange={(e) => setPropForm({ ...propForm, subcity: e.target.value })}
+                  />
+                </div>
+
+                <div className="dash-form-group">
+                  <label>Area (sqm)</label>
+                  <input 
+                    type="number" 
+                    className="dash-input" 
+                    placeholder="140"
+                    value={propForm.area_sqm}
+                    onChange={(e) => setPropForm({ ...propForm, area_sqm: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              <div className="dash-form-group">
+                <label>Specific Location & Details</label>
+                <input 
+                  type="text" 
+                  className="dash-input" 
+                  placeholder="Near Edna Mall, behind main road"
+                  value={propForm.specific_area}
+                  onChange={(e) => setPropForm({ ...propForm, specific_area: e.target.value })}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                <button type="button" className="dash-btn-outline" onClick={() => setShowPublishModal(false)}>Cancel</button>
+                <button type="submit" className="dash-btn-primary" disabled={publishing}>
+                  {publishing ? 'Publishing...' : 'Publish to Digital Catalog'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

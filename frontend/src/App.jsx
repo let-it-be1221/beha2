@@ -6,7 +6,6 @@ import { BrandHeader } from './components/layout/BrandHeader';
 import { NavigationBanner } from './components/layout/NavigationBanner';
 import { SidebarDrawer } from './components/layout/SidebarDrawer';
 import { ProfilePopover } from './components/layout/ProfilePopover';
-import { SponsorBanner } from './components/layout/SponsorBanner';
 import { SettingsModal } from './components/layout/SettingsModal';
 
 import { DashboardView } from './components/views/DashboardView';
@@ -156,6 +155,7 @@ function App() {
       <BrandHeader 
         t={t} 
         onLogoClick={() => setCurrentView('dashboard')} 
+        userSession={userSession}
       />
 
       {/* 3. Dynamic Page Navigation Title Banner */}
@@ -164,6 +164,7 @@ function App() {
         onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         onToggleProfile={() => setIsProfileOpen((prev) => !prev)}
         onCalendarTitleClick={() => setCurrentView('calendar')}
+        userSession={userSession}
       />
 
       {/* Slide-out Sidebar Drawer */}
@@ -173,6 +174,7 @@ function App() {
         currentView={currentView}
         onNavigate={(view) => setCurrentView(view)}
         onLogout={handleLogout}
+        userSession={userSession}
       />
 
       {/* Profile Menu Dropdown */}
@@ -190,10 +192,7 @@ function App() {
         {renderActiveView()}
       </main>
 
-      {/* 5. Sponsor Partner Banner (Bank of Abyssinia) */}
-      <SponsorBanner t={t} />
-
-      {/* 6. Settings Modal */}
+      {/* 5. Settings Modal */}
       <SettingsModal 
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}

@@ -10,7 +10,7 @@ export const GenerationHeadDashboard = ({ data, onRefresh }) => {
 
   if (!data) return <div className="p-4">Loading Generation Head Oversight Console...</div>;
 
-  const { kpis, generation, branches = [], tendency_reports = [], disputes = [], meetings = [] } = data;
+  const { kpis = {}, generation = {}, branches = [], tendency_reports = [], disputes = [], meetings = [] } = data || {};
 
   const handleResolveDispute = async (disputeId) => {
     const notes = prompt("Enter resolution terms for this operational grievance (Article 16.4):");

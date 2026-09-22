@@ -48,14 +48,39 @@ export const AuthView = ({
       return;
     }
 
-    // Authenticate user
-    setSuccessMsg(lang === 'am' ? 'በተሳካ ሁኔታ ገብተዋል...' : 'Logging in successfully...');
+    // Authenticate user & resolve role per Articles 8–19
+    const trimmedId = userId.trim().toUpperCase();
+    let resolvedUser = {
+      id: 8,
+      userId: userId.trim(),
+      name: userId.trim(),
+      primary_role: 'TEAM_MEMBER',
+      role: 'Sales Agent',
+      grade: 2,
+      structure: 'SALES'
+    };
+
+    if (trimmedId.includes('CEO') || trimmedId === 'BH-CEO-001' || trimmedId === '1') {
+      resolvedUser = { id: 1, userId: 'BH-CEO-001', name: 'Dawit Gebremariam (CEO)', primary_role: 'CEO', role: 'CEO', grade: 5, structure: 'EXECUTIVE' };
+    } else if (trimmedId.includes('INF') || trimmedId === 'BH-INF-001' || trimmedId === '2') {
+      resolvedUser = { id: 2, userId: 'BH-INF-001', name: 'Kalkidan Assefa (Info Dept)', primary_role: 'INFORMATION_OFFICER', role: 'Information Officer', grade: 4, structure: 'ADMINISTRATIVE' };
+    } else if (trimmedId.includes('FIN') || trimmedId === 'BH-FIN-001' || trimmedId === '3') {
+      resolvedUser = { id: 3, userId: 'BH-FIN-001', name: 'Henok Tesfaye (Finance Dept)', primary_role: 'FINANCE_OFFICER', role: 'Finance Officer', grade: 4, structure: 'ADMINISTRATIVE' };
+    } else if (trimmedId.includes('SYS') || trimmedId.includes('ADMIN') || trimmedId === 'BH-SYS-001' || trimmedId === '4') {
+      resolvedUser = { id: 4, userId: 'BH-SYS-001', name: 'Robel Girma (SysAdmin)', primary_role: 'SYSTEM_ADMIN', role: 'System Admin', grade: 4, structure: 'ADMINISTRATIVE' };
+    } else if (trimmedId.includes('GEN') || trimmedId === 'BH-GEN-001' || trimmedId === '5') {
+      resolvedUser = { id: 5, userId: 'BH-GEN-001', name: 'Alemayehu Tadesse (Gen Head)', primary_role: 'GENERATION_HEAD', role: 'Generation Head', grade: 5, structure: 'SALES' };
+    } else if (trimmedId.includes('BR') || trimmedId.includes('BRANCH') || trimmedId === 'BH-BR-001' || trimmedId === '6') {
+      resolvedUser = { id: 6, userId: 'BH-BR-001', name: 'Selamawit Bekele (Branch Mgr)', primary_role: 'BRANCH_MANAGER', role: 'Branch Manager', grade: 4, structure: 'SALES' };
+    } else if (trimmedId.includes('TL') || trimmedId.includes('LEADER') || trimmedId === 'BH-TL-001' || trimmedId === '7') {
+      resolvedUser = { id: 7, userId: 'BH-TL-001', name: 'Mulugeta Kebede (Team Leader)', primary_role: 'TEAM_LEADER', role: 'Team Leader', grade: 3, structure: 'SALES' };
+    } else if (trimmedId.includes('AGT') || trimmedId === 'BH-AGT-001' || trimmedId === '8') {
+      resolvedUser = { id: 8, userId: 'BH-AGT-001', name: 'Tewodros Kassahun (Sales Agent)', primary_role: 'TEAM_MEMBER', role: 'Sales Agent', grade: 2, structure: 'SALES' };
+    }
+
+    setSuccessMsg(lang === 'am' ? 'በተሳካ ሁኔታ ገብተዋል...' : `Logging in as ${resolvedUser.name}...`);
     setTimeout(() => {
-      onLogin({
-        userId: userId.trim(),
-        name: userId.trim(),
-        role: 'Marketing Agent'
-      });
+      onLogin(resolvedUser);
     }, 400);
   };
 
@@ -241,45 +266,59 @@ export const AuthView = ({
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-CEO-001', name: 'Dawit Gebremariam', role: 'Chief Executive Officer (CEO)', grade: 5, structure: 'EXECUTIVE' })}
-                    style={{ background: '#fee2e2', color: '#991b1b', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 1, userId: 'BH-CEO-001', name: 'Dawit Gebremariam (CEO)', primary_role: 'CEO', role: 'CEO', grade: 5, structure: 'EXECUTIVE' })}
+                    style={{ background: '#fee2e2', color: '#991b1b', border: '1px solid #fca5a5', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    👑 CEO Dawit (L5)
+                    👑 1. CEO Dawit (L5)
                   </button>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-GEN-001', name: 'Alemayehu Tadesse', role: 'Generation Head', grade: 5, structure: 'SALES' })}
-                    style={{ background: '#fef3c7', color: '#92400e', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 2, userId: 'BH-INF-001', name: 'Kalkidan Assefa (Info Dept)', primary_role: 'INFORMATION_OFFICER', role: 'Information Officer', grade: 4, structure: 'ADMINISTRATIVE' })}
+                    style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    ⭐ Gen Head Alemayehu (L5)
+                    📁 2. Info Dept Kalkidan (L4)
                   </button>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-BR-001', name: 'Selamawit Bekele', role: 'Branch Manager', grade: 4, structure: 'SALES' })}
-                    style={{ background: '#e0e7ff', color: '#3730a3', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 3, userId: 'BH-FIN-001', name: 'Henok Tesfaye (Finance Dept)', primary_role: 'FINANCE_OFFICER', role: 'Finance Officer', grade: 4, structure: 'ADMINISTRATIVE' })}
+                    style={{ background: '#dcfce7', color: '#15803d', border: '1px solid #86efac', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    🏢 Branch Mgr Selamawit (L4)
+                    💳 3. Finance Henok (L4)
                   </button>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-FIN-001', name: 'Henok Tesfaye', role: 'Finance Officer', grade: 4, structure: 'ADMINISTRATIVE' })}
-                    style={{ background: '#dcfce7', color: '#166534', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 4, userId: 'BH-SYS-001', name: 'Robel Girma (SysAdmin)', primary_role: 'SYSTEM_ADMIN', role: 'System Admin', grade: 4, structure: 'ADMINISTRATIVE' })}
+                    style={{ background: '#f3e8ff', color: '#7e22ce', border: '1px solid #d8b4fe', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    💳 Finance Henok (L4)
+                    🛡️ 4. SysAdmin Robel (L4)
                   </button>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-TL-001', name: 'Yonas Haile', role: 'Team Leader', grade: 3, structure: 'SALES' })}
-                    style={{ background: '#f1f5f9', color: '#334155', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 5, userId: 'BH-GEN-001', name: 'Alemayehu Tadesse (Gen Head)', primary_role: 'GENERATION_HEAD', role: 'Generation Head', grade: 5, structure: 'SALES' })}
+                    style={{ background: '#fef3c7', color: '#b45309', border: '1px solid #fde68a', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    👥 Team Leader Yonas (L3)
+                    ⭐ 5. Gen Head Alemayehu (L5)
                   </button>
                   <button 
                     type="button" 
-                    onClick={() => onLogin({ userId: 'BH-AGT-001', name: 'Tewodros Kassahun', role: 'Sales Consultant', grade: 2, structure: 'SALES' })}
-                    style={{ background: '#f1f5f9', color: '#334155', border: 'none', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                    onClick={() => onLogin({ id: 6, userId: 'BH-BR-001', name: 'Selamawit Bekele (Branch Mgr)', primary_role: 'BRANCH_MANAGER', role: 'Branch Manager', grade: 4, structure: 'SALES' })}
+                    style={{ background: '#ffedd5', color: '#c2410c', border: '1px solid #fed7aa', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
                   >
-                    💼 Agent Tewodros (L2)
+                    🏢 6. Branch Mgr Selamawit (L4)
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => onLogin({ id: 7, userId: 'BH-TL-001', name: 'Mulugeta Kebede (Team Leader)', primary_role: 'TEAM_LEADER', role: 'Team Leader', grade: 3, structure: 'SALES' })}
+                    style={{ background: '#ecfeff', color: '#0e7490', border: '1px solid #a5f3fc', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                  >
+                    👥 7. Team Leader Mulugeta (L3)
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => onLogin({ id: 8, userId: 'BH-AGT-001', name: 'Tewodros Kassahun (Sales Agent)', primary_role: 'TEAM_MEMBER', role: 'Sales Agent', grade: 2, structure: 'SALES' })}
+                    style={{ background: '#f1f5f9', color: '#334155', border: '1px solid #cbd5e1', padding: '6px 8px', borderRadius: '6px', fontSize: '11px', fontWeight: '700', cursor: 'pointer', textAlign: 'left' }}
+                  >
+                    💼 8. Direct Agent Tewodros (L2)
                   </button>
                 </div>
               </div>

@@ -1019,8 +1019,124 @@ Route::post('/dashboards/actions/reset-pin', function (Request $request) {
         'details' => "Reset operational access PIN for staff member {$targetUser->name} ({$targetUser->official_id}).",
     ]);
 
-    return response()->json(['message' => "PIN reset successfully for {$targetUser->name}"]);
+// SysAdmin Toggle User Ban / Suspend (Article 15.1)
+Route::post('/dashboards/actions/toggle-user-ban', function (Request $request) {
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+    ]);
+
+    $targetUser = User::findOrFail($validated['user_id']);
+    $newStatus = ($targetUser->status === 'banned' || $targetUser->status === 'suspended') ? 'active' : 'banned';
+    $targetUser->update(['status' => $newStatus]);
+
+    $admin = User::where('admin_department', 'SYSTEM_ADMIN')->first();
+    AuditLog::create([
+        'user_id' => $admin ? $admin->id : 1,
+        'action' => $newStatus === 'banned' ? 'USER_ACCOUNT_BANNED' : 'USER_ACCOUNT_REACTIVATED',
+        'entity_type' => 'USER',
+        'entity_id' => $targetUser->id,
+        'ip_address' => $request->ip() ?? '127.0.0.1',
+        'details' => "System Administrator set account status to {$newStatus} for {$targetUser->name} ({$targetUser->official_id}).",
+    ]);
+
+    return response()->json([
+        'message' => "User {$targetUser->name} is now {$newStatus}",
+        'user' => $targetUser,
+    ]);
 });
+
+// SysAdmin Delete User (Article 15.1)
+Route::post('/dashboards/actions/delete-user', function (Request $request) {
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+    ]);
+
+    $targetUser = User::findOrFail($validated['user_id']);
+    $userName = $targetUser->name;
+    $officialId = $targetUser->official_id;
+    $targetUser->delete();
+
+    $admin = User::where('admin_department', 'SYSTEM_ADMIN')->first();
+    AuditLog::create([
+        'user_id' => $admin ? $admin->id : 1,
+        'action' => 'USER_ACCOUNT_DELETED',
+        'entity_type' => 'USER',
+        'entity_id' => $validated['user_id'],
+        'ip_address' => $request->ip() ?? '127.0.0.1',
+        'details' => "Deleted staff account {$userName} ({$officialId}) from the system.",
+    ]);
+
+    return response()->json([
+        'message' => "User {$userName} ({$officialId}) deleted successfully",
+    ]);
+});
+
+// SysAdmin Add / Register New User
+Route::post('/dashboards/actions/add-user', function (Request $request) {
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'official_id' => 'required|string|max:50|unique:users,official_id',
+        'email' => 'required|email|max:255|unique:users,email',
+        'phone' => 'required|string|max:30',
+        'structure_type' => 'required|in:EXECUTIVE,ADMINISTRATIVE,SALES',
+        'admin_department' => 'nullable|in:INFORMATION,FINANCE,SYSTEM_ADMIN',
+        'primary_role' => 'required|string|max:50',
+        'grade_level' => 'required|integer|min:1|max:5',
+        'generation_id' => 'nullable|exists:generations,id',
+        'branch_id' => 'nullable|exists:branches,id',
+        'team_id' => 'nullable|exists:teams,id',
+        'pin' => 'nullable|string|min:4|max:8',
+        'password' => 'nullable|string|min:4',
+    ]);
+
+    $pin = $validated['pin'] ?? '1234';
+    $password = $validated['password'] ?? 'password';
+
+    $user = User::create([
+        'name' => $validated['name'],
+        'official_id' => $validated['official_id'],
+        'email' => $validated['email'],
+        'phone' => $validated['phone'],
+        'structure_type' => $validated['structure_type'],
+        'admin_department' => $validated['admin_department'] ?? null,
+        'primary_role' => $validated['primary_role'],
+        'grade_level' => $validated['grade_level'],
+        'generation_id' => $validated['generation_id'] ?? null,
+        'branch_id' => $validated['branch_id'] ?? null,
+        'team_id' => $validated['team_id'] ?? null,
+        'status' => 'active',
+        'pin' => \Illuminate\Support\Facades\Hash::make($pin),
+        'password' => \Illuminate\Support\Facades\Hash::make($password),
+    ]);
+
+    $admin = User::where('admin_department', 'SYSTEM_ADMIN')->first();
+    AuditLog::create([
+        'user_id' => $admin ? $admin->id : 1,
+        'action' => 'NEW_STAFF_REGISTERED',
+        'entity_type' => 'USER',
+        'entity_id' => $user->id,
+        'ip_address' => $request->ip() ?? '127.0.0.1',
+        'details' => "Registered new {$validated['primary_role']} {$user->name} ({$user->official_id}) with Grade Level {$user->grade_level}.",
+    ]);
+
+    return response()->json([
+        'message' => "User {$user->name} created successfully!",
+        'user' => $user,
+    ], 201);
+});
+
+// SysAdmin Remove / Delete Access Request
+Route::post('/dashboards/actions/delete-access-request', function (Request $request) {
+    $validated = $request->validate([
+        'request_id' => 'required|exists:access_requests,id',
+    ]);
+
+    $req = AccessRequest::findOrFail($validated['request_id']);
+    $req->delete();
+
+    return response()->json(['message' => 'Access request removed successfully']);
+});
+
 
 
 

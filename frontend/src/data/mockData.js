@@ -121,71 +121,197 @@ export const TRANSLATIONS = {
   }
 };
 
-export const INITIAL_PROPERTIES = [
+export const EDUCATIONAL_HOUSE_TYPES = [
   {
-    id: "PROP-001",
-    type: "Apartment",
-    title: "1. Apartment",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
-    description: "An apartment is a self-contained residential unit that occupies only part of a larger building. It is designed to offer a modern, vertical, and community-oriented living experience, typically managed collectively.",
-    vsVilla: "Unlike a standalone villa which features private land, a fenced yard, and no shared walls, an apartment shares building structures, corridors, and exterior spaces with other residents.",
-    vsCondo: "While structurally similar (both are units within a multi-story building), a condominium specifically emphasizes individual ownership of the specific unit coupled with shared co-ownership of common areas. In contrast, an \"apartment\" is often used broadly to refer to rental or professionally managed multi-family residential complexes.",
-    advantages: ["Location & Accessibility", "Shared Amenities", "Enhanced Security", "Low Maintenance"],
-    site: "Bole Atlas",
-    developer: "Noah Real Estate",
-    bedrooms: "3 Bed",
-    area: "145 sqm",
-    status: "Ready to Move",
-    price: "18,500,000 ETB"
-  },
-  {
-    id: "PROP-002",
+    id: "TYPE-VILLA",
     type: "Villa",
-    title: "2. Villa",
+    title: "Ayat G+2 Luxury Modern Villa",
+    categoryLabel: "Villa / Standalone Residential",
+    locationScope: "Ayat Zone 3 near Hillside",
     image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
-    description: "A villa is a premium, standalone residential property that stands on its own private plot of land. It is designed to offer maximum privacy, spacious living spaces, luxury, and independence, typically featuring a private yard or garden.",
-    vsApartment: "Unlike an apartment, which is a unit within a multi-story building sharing walls and common amenities, a villa is a completely detached structure with no shared interior walls and full ownership of the surrounding land.",
-    vsCondo: "While a condominium involves shared ownership and community management of common areas, a villa provides total autonomy, where the owner has full control and responsibility over the entire property and compound.",
-    advantages: ["Complete Privacy & Space", "High Investment Value", "Customization & Expansion", "Exclusive Amenities"],
-    site: "CMC Sunrise",
-    developer: "Gift Real Estate",
-    bedrooms: "4 Bed + Maid",
-    area: "350 sqm",
-    status: "Under Construction",
-    price: "42,000,000 ETB"
+    description: "Brand new G+2 villa with modern kitchen, garden, and parking for 3 cars.",
+    vsVilla: "Modern amenities & central security management",
+    vsCondo: "Superior construction finishes & developer warranties",
+    advantages: [
+      "Direct intake by Generation Head (Article 16.6)",
+      "Verified & published by Information Dept (Article 13.2)",
+      "Eligible for CBE bank loan financing & diaspora settlements"
+    ]
   },
   {
-    id: "PROP-003",
+    id: "TYPE-APARTMENT",
+    type: "Apartment",
+    title: "Bole Atlas 2-Bedroom Prime Apartment",
+    categoryLabel: "Apartment / Multi-Family Complex",
+    locationScope: "Atlas Behind Edna Mall",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
+    description: "Fully finished with elevator, backup generator, and panoramic balcony view.",
+    vsVilla: "Modern amenities & central security management",
+    vsCondo: "Superior construction finishes & developer warranties",
+    advantages: [
+      "Direct intake by Generation Head (Article 16.6)",
+      "Verified & published by Information Dept (Article 13.2)",
+      "Eligible for CBE bank loan financing & diaspora settlements"
+    ]
+  },
+  {
+    id: "TYPE-CONDO",
     type: "Condominium",
-    title: "3. Condominium",
+    title: "CMC Sunrise Deeded Condominium",
+    categoryLabel: "Condominium / Co-Owned Community",
+    locationScope: "CMC Michael Area",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
-    description: "A condominium is a distinct type of real estate ownership where an individual owns a specific housing unit within a larger multi-unit building or complex, while jointly owning the shared common areas (such as hallways, elevators, recreational facilities, and the surrounding land) with other residents.",
-    vsApartmentOwnership: "While structurally and physically similar (both are units inside a multi-story building), the main difference lies in ownership. An apartment is typically owned by a single entity and rented out to tenants, whereas a condominium involves individual private ownership of each unit combined with shared co-ownership of common spaces.",
-    vsVillaStandalone: "Unlike a villa, which offers a standalone structure with a private yard and total individual control over the entire plot, a condo requires adherence to community association rules and shared management of communal grounds.",
-    advantages: ["Affordable Entry Point", "Deeded Co-ownership", "Community Amenities", "Appreciation Potential"],
-    site: "Ayat Zone 2",
-    developer: "Addis Ababa Housing Dev",
-    bedrooms: "2 Bed",
-    area: "98 sqm",
-    status: "Ready to Move",
-    price: "7,800,000 ETB"
+    description: "Individual private title unit with joint common area co-ownership and community grounds.",
+    vsApartmentOwnership: "Individual deeded ownership vs multi-unit rental management",
+    vsVillaStandalone: "Adherence to community association rules and shared security management",
+    advantages: [
+      "Direct intake by Generation Head (Article 16.6)",
+      "Verified & published by Information Dept (Article 13.2)",
+      "Eligible for CBE bank loan financing & diaspora settlements"
+    ]
   },
   {
-    id: "PROP-004",
+    id: "TYPE-RENTAL",
     type: "Rental Houses",
-    title: "4. Rental Houses",
+    title: "Kazanchis Prime Furnished Executive Rental",
+    categoryLabel: "Rental / Commercial Leases",
+    locationScope: "Kazanchis / ECA Diplomatic Corridor",
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
-    description: "A rental house refers to any property (ranging from standalone houses and villas to apartments or rooms) that is leased out by a landlord to tenants for a specified periodic fee, usually monthly or annually, without transferring ownership.",
-    vsOwnedPurchasing: "Unlike buying a home where the occupant holds the title deed and bears long-term financial commitments, renting provides flexibility, lower upfront costs, and zero responsibility for structural depreciation or major property taxes.",
-    advantages: ["Flexibility & Mobility", "Reduced Maintenance Responsibility", "Lower Financial Commitment", "Wide Range of Options"],
-    site: "Kazanchis / ECA",
-    developer: "Private Landlord",
-    bedrooms: "3 Bed Furnished",
-    area: "160 sqm",
-    status: "Available Immediately",
-    price: "120,000 ETB / month"
+    description: "Leased executive property for diplomatic, corporate, or flexible residential occupancy.",
+    vsOwnedPurchasing: "Zero long-term title debt, instant mobility, and landlord maintenance cover",
+    vsVillaStandalone: "Central urban connectivity with concierge and full backup infrastructure",
+    advantages: [
+      "Direct intake by Generation Head (Article 16.6)",
+      "Verified & published by Information Dept (Article 13.2)",
+      "Eligible for CBE bank loan financing & diaspora settlements"
+    ]
   }
 ];
+
+export const POSTED_PROPERTIES_INVENTORY = [
+  {
+    id: "BH-AYAT-V01",
+    property_code: "BH-AYAT-V01",
+    title: "Ayat G+2 Luxury Modern Villa",
+    type: "Villa",
+    site: "Ayat Zone 3",
+    subcity: "Yeka",
+    bedrooms: "4 Bed",
+    bathrooms: 3,
+    area: "250 sqm",
+    priceNum: 18500000,
+    price: "ETB 18,500,000",
+    advance: "ETB 3,700,000 (20%)",
+    developer: "Flintstone Homes PLC",
+    status: "Ready to Move",
+    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+    description: "Brand new G+2 villa with modern kitchen, private garden, parking for 3 cars, and immediate title deed transfer.",
+    cbeLoan: "Eligible for 70% CBE Mortgage Financing",
+    features: ["Private Garden", "G+2 Structure", "Master Bedroom with Balcony", "Water Reservoir (5000L)", "3-Car Parking"]
+  },
+  {
+    id: "BH-BOLE-A01",
+    property_code: "BH-BOLE-A01",
+    title: "Bole Atlas 2-Bedroom Prime Apartment",
+    type: "Apartment",
+    site: "Bole Atlas",
+    subcity: "Bole",
+    bedrooms: "2 Bed",
+    bathrooms: 2,
+    area: "115 sqm",
+    priceNum: 12800000,
+    price: "ETB 12,800,000",
+    advance: "ETB 2,560,000 (20%)",
+    developer: "Noah Real Estate",
+    status: "Ready to Move",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80",
+    description: "Fully finished luxury unit with high-speed elevator, 100kVA automatic backup generator, and panoramic city view.",
+    cbeLoan: "Approved for Diaspora Foreign Currency & CBE Loan",
+    features: ["High-speed Elevator", "Automatic Generator", "Fitted Kitchen", "Basement Parking", "24/7 Security"]
+  },
+  {
+    id: "BH-CMC-V02",
+    property_code: "BH-CMC-V02",
+    title: "CMC Sunrise Executive G+1 Villa",
+    type: "Villa",
+    site: "CMC Sunrise",
+    subcity: "Yeka",
+    bedrooms: "4 Bed",
+    bathrooms: 4,
+    area: "350 sqm",
+    priceNum: 42000000,
+    price: "ETB 42,000,000",
+    advance: "ETB 8,400,000 (20%)",
+    developer: "Gift Real Estate",
+    status: "Under Construction",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+    description: "Spacious compound villa in a gated community with clubhouse, tennis court, and dedicated maid's quarters.",
+    cbeLoan: "Installment payment over 24 months with CBE bank guarantee",
+    features: ["Gated Community", "Maid Quarter", "Solar Water Heating", "Clubhouse Access", "Electric Fence"]
+  },
+  {
+    id: "BH-AYAT-C01",
+    property_code: "BH-AYAT-C01",
+    title: "Ayat Zone 2 Modern Condominium Unit",
+    type: "Condominium",
+    site: "Ayat Zone 2",
+    subcity: "Yeka",
+    bedrooms: "2 Bed",
+    bathrooms: 1,
+    area: "98 sqm",
+    priceNum: 7800000,
+    price: "ETB 7,800,000",
+    advance: "ETB 1,560,000 (20%)",
+    developer: "Addis Ababa Housing Dev",
+    status: "Ready to Move",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
+    description: "Co-owned multi-story complex unit with deeded private title, ample ground parking, and direct light rail transit access.",
+    cbeLoan: "Eligible for government housing loan pre-approvals",
+    features: ["Transit Proximity", "Deeded Title", "Ground Parking", "Ceramic Tiles", "Water Tank Included"]
+  },
+  {
+    id: "BH-KAZ-A02",
+    property_code: "BH-KAZ-A02",
+    title: "Kazanchis Diplomatic 3-Bedroom Apartment",
+    type: "Apartment",
+    site: "Kazanchis",
+    subcity: "Kirkos",
+    bedrooms: "3 Bed",
+    bathrooms: 3,
+    area: "165 sqm",
+    priceNum: 24500000,
+    price: "ETB 24,500,000",
+    advance: "ETB 4,900,000 (20%)",
+    developer: "Noah Real Estate",
+    status: "Ready to Move",
+    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80",
+    description: "Executive high-rise unit 5 minutes from UNECA, Radisson Blu, and Inter Luxury Hotel with underground parking.",
+    cbeLoan: "Diaspora mortgage package available",
+    features: ["Diplomatic Area", "3 En-suite Baths", "Underground Parking", "Gym & Sauna", "Backup Borehole Water"]
+  },
+  {
+    id: "BH-KAZ-R01",
+    property_code: "BH-KAZ-R01",
+    title: "Kazanchis ECA Furnished Rental Penthouse",
+    type: "Rental Houses",
+    site: "Kazanchis",
+    subcity: "Kirkos",
+    bedrooms: "3 Bed",
+    bathrooms: 3,
+    area: "180 sqm",
+    priceNum: 1440000,
+    price: "ETB 120,000 / month",
+    advance: "ETB 360,000 (3 Months)",
+    developer: "Private Landlord",
+    status: "Ready to Move",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80",
+    description: "Fully furnished diplomatic penthouse with contemporary Italian furnishings, ultra-high-speed fiber, and housekeeping.",
+    cbeLoan: "Corporate lease agreements with embassy billing supported",
+    features: ["Fully Furnished", "Housekeeping Available", "Fiber Internet", "Security Guard", "Balcony Skyline View"]
+  }
+];
+
+export const INITIAL_PROPERTIES = POSTED_PROPERTIES_INVENTORY;
 
 export const INITIAL_CUSTOMERS = [
   {
